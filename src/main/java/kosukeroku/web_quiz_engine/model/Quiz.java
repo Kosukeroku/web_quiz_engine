@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -22,6 +23,11 @@ public class Quiz {
 
     private String title;
     private String text;
+    private int answer;
+
+    public List<String> getOptions() {
+        return options != null ? Collections.unmodifiableList(options) : Collections.emptyList();
+    }
 
     @ElementCollection
     @CollectionTable(name = "quiz_options", joinColumns = @JoinColumn(name = "quiz_id"))
