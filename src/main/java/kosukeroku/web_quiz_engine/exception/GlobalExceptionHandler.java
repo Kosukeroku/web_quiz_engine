@@ -1,6 +1,7 @@
 package kosukeroku.web_quiz_engine.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,7 +31,7 @@ public class GlobalExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         ex.getConstraintViolations().forEach(violation -> {
             String message = violation.getMessage();
-            errors.put("error", message);
+            errors.put("Error", message);
         });
         return errors;
     }
@@ -39,6 +40,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleQuizNotFoundException(QuizNotFoundException ex) {
+        return Map.of("Error", ex.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleUserAlreadyExistsException(ValidationException ex) {
         return Map.of("Error", ex.getMessage());
     }
 }

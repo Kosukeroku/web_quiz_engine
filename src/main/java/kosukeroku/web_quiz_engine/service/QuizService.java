@@ -54,10 +54,12 @@ public class QuizService {
     }
 
     public AnswerResponse solveQuiz(int answer, Long quizId) {
+        log.info("Solving quiz with id: {}", quizId);
         Quiz quiz = quizRepository.findById(quizId)
                         .orElseThrow(() -> new QuizNotFoundException(quizId));
 
         boolean isCorrect = answer == quiz.getAnswer();
+        log.info("Answer is correct: {}", isCorrect);
         String message = isCorrect ? RIGHT_RESPONSE_MESSAGE : WRONG_RESPONSE_MESSAGE;
 
         return new AnswerResponse(isCorrect, message);
