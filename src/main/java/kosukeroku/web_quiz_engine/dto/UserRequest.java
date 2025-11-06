@@ -1,8 +1,8 @@
 package kosukeroku.web_quiz_engine.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -12,6 +12,6 @@ public class UserRequest {
     @NotBlank(message = "Email is required")
     private String email;
 
-    @Min(value = 8, message = "Password must have at least 8 characters")
+    @Size(min = 8, message = "Password must have at least 8 characters")
     private String password;
 }
