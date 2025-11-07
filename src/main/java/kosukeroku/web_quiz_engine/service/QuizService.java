@@ -9,6 +9,8 @@ import kosukeroku.web_quiz_engine.model.Quiz;
 import kosukeroku.web_quiz_engine.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,12 +47,11 @@ public class QuizService {
 
     }
 
-    public List<QuizResponse> getAllQuizzes() {
-        log.info("Getting all quizzes");
-        return quizRepository.findAll()
-                .stream()
-                .map(quizMapper::toResponse)
-                .collect(Collectors.toList());
+    public Page<QuizResponse> getAllQuizzes(Pageable pageable) {
+        log.info("Getting quizzes: page {}, size {}", pageable.getPageNumber(), pageable.getPageSize());
+
+        return quizRepository.findAll(pageable)
+                .map(quizMapper::toResponse);
     }
 
     public AnswerResponse solveQuiz(int answer, Long quizId) {

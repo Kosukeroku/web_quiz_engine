@@ -8,11 +8,14 @@
     import kosukeroku.web_quiz_engine.dto.QuizResponse;
     import kosukeroku.web_quiz_engine.service.QuizService;
     import lombok.RequiredArgsConstructor;
+    import org.springframework.data.domain.Page;
+    import org.springframework.data.domain.Pageable;
+    import org.springframework.data.domain.Sort;
+    import org.springframework.data.web.PageableDefault;
     import org.springframework.http.HttpStatus;
     import org.springframework.validation.annotation.Validated;
     import org.springframework.web.bind.annotation.*;
 
-    import java.util.List;
 
     import static kosukeroku.web_quiz_engine.dto.QuizRequest.ANSWER_COUNT;
 
@@ -36,8 +39,8 @@
         }
 
         @GetMapping("/api/quizzes")
-        public List<QuizResponse> getAllQuizzes() {
-            return quizService.getAllQuizzes();
+        public Page<QuizResponse> getAllQuizzes(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+            return quizService.getAllQuizzes(pageable);
         }
 
         @PostMapping("/api/quizzes/{id}/solve")
